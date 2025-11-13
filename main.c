@@ -4,6 +4,7 @@
 void numberConvert(int zahl, int zielsystem, char ausgabe[]);
 void read_number(int* number);
 void read_number_system(int* number_system);
+char* itc(int number[], int end, char ausgabe[]);
 
 int main(void) {
     int input, number_system;
@@ -36,18 +37,22 @@ void numberConvert(int zahl, int zielsystem, char ausgabe[]) {
         i++;
     }
 
-    ausgabe[i] = '\0';
-    for (int j = i - 1, a = 0; j >= 0; j--, a++) {
-        if (rest[j] < 10) {
-            ausgabe[a] = (char) (rest[j] + '0');
+    itc(rest, i, ausgabe);
+}
+
+char* itc(int number[], int end, char ausgabe[]) {
+    for (int j = end - 1, a = 0; j >= 0; j--, a++) {
+        if (number[j] < 10) {
+            ausgabe[a] = (char) (number[j] + '0');
         } else {
-            ausgabe[a] = (char) (rest[j] - 10 + 'A');
+            ausgabe[a] = (char) (number[j] - 10 + 'A');
         }
     }
+    ausgabe[end] = '\0';
 }
 
 void read_number(int* number) {
-    char input[32];
+    char input[12];
 
     fgets(input, sizeof(input), stdin);
 
@@ -64,11 +69,19 @@ void read_number(int* number) {
         }
     }
 
+    // 0x7FFFFFFF (Hex) = 2147483647 -> max signed int
+    long checkInput = atol(input);
+    if (checkInput > 0x7FFFFFFF ) {
+        printf("Die Zahl darf maximal 2^31 betragen. Bitte versuche es erneut!\n");
+        read_number(number);
+        return;
+    }
+
     *number = atoi(input);
 }
 
 void read_number_system(int* number_system) {
-    char input[32];
+    char input[3];
 
     fgets(input, sizeof(input), stdin);
 

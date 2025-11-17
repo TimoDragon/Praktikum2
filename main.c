@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "numberConvert.h"
 
-void numberConvert(int zahl, int zielsystem, char ausgabe[]);
 void read_number(int* number);
 void read_number_system(int* number_system);
-char* itc(int number[], int end, char ausgabe[]);
+void clearBuffer();
 
 int main(void) {
     int input, number_system;
@@ -23,38 +24,13 @@ int main(void) {
     return 0;
 }
 
-void numberConvert(int zahl, int zielsystem, char ausgabe[]) {
-    int rest[32];
-
-    for (int i = 0; i < 32; i++) {
-        rest[i] = 0;
-    }
-
-    int i = 0;
-    while (zahl > 0) {
-        rest[i] = zahl % zielsystem;
-        zahl = zahl / zielsystem;
-        i++;
-    }
-
-    itc(rest, i, ausgabe);
-}
-
-char* itc(int number[], int end, char ausgabe[]) {
-    for (int j = end - 1, a = 0; j >= 0; j--, a++) {
-        if (number[j] < 10) {
-            ausgabe[a] = (char) (number[j] + '0');
-        } else {
-            ausgabe[a] = (char) (number[j] - 10 + 'A');
-        }
-    }
-    ausgabe[end] = '\0';
-}
-
 void read_number(int* number) {
-    char input[100];
+    char input[12];
 
     fgets(input, sizeof(input), stdin);
+    if (!strchr(input, '\n')){
+       clearBuffer();
+    }
 
     for (int i = 0; i < (int)sizeof(input); i++) {
         if (input[i] == '\n' || input[i] == '\0') {
@@ -85,8 +61,11 @@ void read_number_system(int* number_system) {
 
     fgets(input, sizeof(input), stdin);
 
-    int num = atoi(input);
+    if (!strchr(input, '\n')){
+        clearBuffer();
+    }
 
+    int num = atoi(input);
     if (num < 2 || num > 16) {
         printf("Es sind nur Zahlen zwischen 2 und 16 erlaubt.\n");
         read_number_system(number_system);
@@ -94,4 +73,9 @@ void read_number_system(int* number_system) {
     }
 
     *number_system = num;
+}
+
+void clearBuffer(){
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
 }

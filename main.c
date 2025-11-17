@@ -52,12 +52,12 @@ char* itc(int number[], int end, char ausgabe[]) {
 }
 
 void read_number(int* number) {
-    char input[12];
+    char input[100];
 
     fgets(input, sizeof(input), stdin);
 
     for (int i = 0; i < (int)sizeof(input); i++) {
-        if (input[i] == '\n') {
+        if (input[i] == '\n' || input[i] == '\0') {
             break;
         }
 
@@ -81,11 +81,12 @@ void read_number(int* number) {
 }
 
 void read_number_system(int* number_system) {
-    char input[3];
+    char input[4];
 
     fgets(input, sizeof(input), stdin);
 
     int num = atoi(input);
+
 
     if (num < 2 || num > 16) {
         printf("Es sind nur Zahlen zwischen 2 und 16 erlaubt.\n");

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int split(char *string, char splitChar, char **parts, int maxParts, int maxLength);
 
@@ -10,9 +11,9 @@ int main(void) {
         parts[i] = partsbuf[i];
     }
 
-    int k = split("Blau;Gelb;Rot", ';', parts, 5, 200);
+    int k = split("", ';', parts, 5, 200);
 
-    printf("%d\n", k);
+    printf("Anzahl Parts: %d\n", k);
 
     for (int i = 0; i < k; i++) {
         printf("%s\n", parts[i]);
@@ -24,7 +25,7 @@ int main(void) {
 int split(char *string, char splitChar, char **parts, int maxParts, int maxLength) {
     int partCounter = 0;
 
-    for (int i = 0, j = 0; i < maxLength; i++) {
+    for (int i = 0, j = 0; i < strlen(string)+1; i++) {
         char c = string[i];
 
         if (c == '\0') {
@@ -41,6 +42,10 @@ int split(char *string, char splitChar, char **parts, int maxParts, int maxLengt
             parts[partCounter][j] = '\0';
             partCounter += 1;
             j = 0;
+            continue;
+        }
+
+        if (j == maxLength) {
             continue;
         }
 

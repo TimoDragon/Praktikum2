@@ -11,7 +11,7 @@ int main(void) {
         parts[i] = partsbuf[i];
     }
 
-    int k = split("", ';', parts, 5, 200);
+    int k = split("Blau;Gelb;Rot", ';', parts, 5, 200);
 
     printf("Anzahl Parts: %d\n", k);
 

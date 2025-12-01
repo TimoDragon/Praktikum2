@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <string.h>
 
 int split(char *string, char splitChar, char **parts, int maxParts, int maxLength);
+int strLen(char *string);
 
 int main(void) {
     char partsbuf[10][200];
@@ -25,13 +25,15 @@ int main(void) {
 int split(char *string, char splitChar, char **parts, int maxParts, int maxLength) {
     int partCounter = 0;
 
-    int strLength = strlen(string)+1;
+    int strLength = strLen(string)+1;
     for (int i = 0, j = 0; i < strLength; i++) {
         char c = string[i];
 
         if (c == '\0') {
-            parts[partCounter][j] = '\0';
-            partCounter += 1;
+            if (j != 0){
+                parts[partCounter][j] = '\0';
+                partCounter += 1;
+            }
             break;
         }
 
@@ -40,9 +42,11 @@ int split(char *string, char splitChar, char **parts, int maxParts, int maxLengt
         }
 
         if (c == splitChar) {
-            parts[partCounter][j] = '\0';
-            partCounter += 1;
-            j = 0;
+            if (j != 0){
+                parts[partCounter][j] = '\0';
+                partCounter += 1;
+                j = 0;
+            }
             continue;
         }
 
@@ -63,4 +67,13 @@ int split(char *string, char splitChar, char **parts, int maxParts, int maxLengt
     }
 
     return partCounter;
+}
+
+int strLen(char *string){
+    int i = 0;
+    while (*string != '\0'){
+        string++;
+        i += 1;
+    }
+    return i;
 }

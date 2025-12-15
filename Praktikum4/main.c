@@ -90,15 +90,24 @@ void menu(struct Knoten *schlange) {
 
     switch (input) {
         case 1:
-            enqueue(schlange,1);
+            printf("Element: \n");
+            int input = read_number_input();
+            enqueue(schlange,input);
             break;
-        case 2: {
-            int element = dequeue(schlange);
-            printf("%d\n", element);
+        case 2:
+            if (!isEmpty(schlange)){
+                int element = dequeue(schlange);
+                printf("%d\n", element);
+            }else{
+                printf("Schlange ist Leer!\n");
+            }
             break;
-        }
         case 3:
-            printQueue(schlange);
+            if (!isEmpty(schlange)){
+                printQueue(schlange);
+            }else{
+                printf("Schlange ist Leer!\n");
+            }
             break;
         case 4:
             exit(0);

@@ -5,33 +5,40 @@
 #define ZEILEN 4
 #define SPALTEN 4
 
+int matrix_a[ZEILEN][SPALTEN] = {0};
+int vektor_a[ZEILEN] = {0};
+int vektor_b[ZEILEN] = {0};
+
+void genRand();
 void printMatrix(int arr[ZEILEN][SPALTEN]);
 void printVector(int *arr);
 void multiplyMaVe(int matrix[ZEILEN][SPALTEN], int *vector, int *ergebnis);
 
-int main(void){
-    srand(time(NULL));
-    int matrix_a[ZEILEN][SPALTEN];
-    int vektor_a[ZEILEN] = {0};
-    int vektor_b[ZEILEN];
-
-    for (int i = 0; i < ZEILEN; i++){
-        for (int j = 0; j < SPALTEN; j++){
-            matrix_a[i][j] = (rand() % 64) - 32;
-        }
-    }
-
-    for (int i = 0; i < ZEILEN; i++){
-        vektor_b[i] = (rand() % 64) - 32;
-    }
+int main(void)
+{
+    genRand();
 
     printMatrix(matrix_a);
     printVector(vektor_b);
 
-    multiplyMaVe(matrix_a, vektor_b,vektor_a);
+    int start = clock();
+    for (int i = 0; i < 200; i++){
+        multiplyMaVe(matrix_a, vektor_b,vektor_a);
+    }
+    int end = clock();
+
+    printf("Time taken: %f s \n" , (float)(end - start)  / CLOCKS_PER_SEC);
     printVector(vektor_a);
+}
 
-
+void genRand(){
+    srand(time(NULL));
+    for (int i = 0; i < ZEILEN; i++){
+        vektor_b[i] = (rand() % 64) - 32;
+        for (int j = 0; j < SPALTEN; j++){
+            matrix_a[i][j] = (rand() % 64) - 32;
+        }
+    }
 }
 
 void printMatrix(int arr[ZEILEN][SPALTEN]){
@@ -53,6 +60,7 @@ void printVector(int *arr){
 
 void multiplyMaVe(int matrix[ZEILEN][SPALTEN], int* vector, int *ergebnis){
     for (int i = 0; i < ZEILEN; i++){
+        ergebnis[i] = 0;
         for (int j = 0; j < SPALTEN; j++){
             ergebnis[i] += matrix[i][j] * vector[j];
         }

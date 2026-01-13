@@ -6,36 +6,29 @@ int bedroht(int board[BOARD_SIZE], int x, int y);
 void setze(int board[BOARD_SIZE], int column, int* counter);
 void clearBoard(int board[BOARD_SIZE]);
 
-int main(void) {
+int main(void)
+{
     int board[BOARD_SIZE];
-
     int counter = 0;
-    int line = 0;
-    while (line != BOARD_SIZE) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
         clearBoard(board);
-        board[0] = line;
-
+        board[0] = i;
         setze(board, 1, &counter);
-
-        line++;
     }
-
     printf("Counter: %d\n", counter);
-
     return 0;
 }
 
 void ausgabe(int board[BOARD_SIZE]) {
-    printf("_________________\n");
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
             printf("|%c", board[j] == i ? 'D' : ' ');
-
-            if (j == 7) {
+            if (j == BOARD_SIZE-1) {
                 printf("|\n");
             }
         }
     }
+    printf("\n");
 }
 
 int bedroht(int board[BOARD_SIZE], int x, int y) {
@@ -68,16 +61,14 @@ void setze(int board[BOARD_SIZE], int column, int* counter) {
             continue;
         }
 
+        board[column] = i;
         if (column == BOARD_SIZE-1) {
-            board[column] = i;
             ausgabe(board);
-            board[column] = -1;
             *counter += 1;
         } else {
-            board[column] = i;
             setze(board, column+1, counter);
-            board[column] = -1;
         }
+        board[column] = -1;
     }
 }
 

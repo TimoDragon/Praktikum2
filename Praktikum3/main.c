@@ -11,7 +11,7 @@ int main(void) {
         parts[i] = partsbuf[i];
     }
 
-    int k = split("Blau;Gelb;Rot", ';', parts, 5, 200);
+    int k = split("Blau;;Gelb;Rot", ';', parts, 2, 20);
 
     printf("Anzahl Parts: %d\n", k);
 
@@ -23,6 +23,9 @@ int main(void) {
 }
 
 int split(char *string, char splitChar, char **parts, int maxParts, int maxLength) {
+    if (maxParts <= 0 || maxLength <= 0){
+        return 0;
+    }
     int partCounter = 0;
 
     int strLength = strLen(string)+1;
